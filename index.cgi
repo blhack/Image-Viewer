@@ -1,4 +1,5 @@
 #!/usr/bin/python
+
 import os
 import EXIF
 import cPickle as pickle
@@ -18,20 +19,29 @@ class image:
 		self.file_base_name = self.filename.split(".")[0]
 		self.fullsize = path
 		self.thumb_path = "thumbs/thumb_%s" % (self.filename)
-		self.raw_path = "raw/%s\.NEF" % (self.file_base_name)
+		self.raw_path = "raw/%s.NEF" % (self.file_base_name)
 		
 		if not image_data.has_key(self.file_base_name):	
 			f = open(path,'rb')
-			tags = EXIF.process_file(f)
-			f.close()
-			datetime = str(tags['EXIF DateTimeDigitized'])
-			self.date = datetime.split(" ")[0]
-			self.time = datetime.split(" ")[1]
-			self.shutterspeed = str(tags['EXIF ExposureTime'])
-			apperature_string =  str(tags['EXIF FNumber']).split("/")
-			top = int(apperature_string[0])
-			bottom = int(apperature_string[1])
-			self.fstop = round((float(top)/float(bottom)), 1)
+			try:
+				tags = EXIF.process_file(f)
+				f.close()
+				datetime = str(tags['EXIF DateTimeDigitized'])
+				self.date = datetime.split(" ")[0]
+				self.time = datetime.split(" ")[1]
+				self.shutterspeed = str(tags['EXIF ExposureTime'])
+				apperature_string =  str(tags['EXIF FNumber']).split("/")
+				if len(apperature_string) > 1:
+					top = int(apperature_string[0])
+					bottom = int(apperature_string[1])
+					self.fstop = round((float(top)/float(bottom)), 1)
+				else:
+					self.fstop = apperature_string[0]
+			except:
+				self.date = "0"
+				self.time = "0"
+				self.shutterspeed = "0"
+				self.fstop = "0"
 		else:
 			my_data = image_data[self.file_base_name]
 			self.date = my_data['date']
@@ -91,4 +101,3 @@ for image in images:
 print "</html>"
 
 pickle.dump( image_data, open( "image_data.p", "wb" ) )
-
