@@ -1,0 +1,43 @@
+This is a python script that will make viewing a directory full of images easier.
+
+
+USAGE
+
+Place index.cgi in a directory full of images.  At it's most basic, It will display those images on a page when called.
+But that isn't the point.
+
+Add a directory under index.cgi called "thumbs" and create a thumbnail in it for all of your images. preface these 
+file names with thumb_
+
+For example:
+
+/var/www/example/htdocs/gallery/:
+
+./image_1.jpg
+./image_2.jpg
+./image_3.jpg
+./thumbs
+./thumbs/thumb_image_1.jpg
+./thumbs/thumb_image_2.jpg
+./thumbs/thumb_image_3.jpg
+
+You can also create a directory for NEF (raw) files in a similar way.
+
+
+./var/www/example/htdocs/gallery/:
+
+./image_1.jpg
+./image_2.jpg
+./image_3.jpg
+./thumbs
+./thumbs/thumb_image_1.jpg
+./thumbs/thumb_image_2.jpg
+./thumbs/thumb_image_3.jpg
+./raw
+./raw/image_1.NEF
+./raw/image_2.NEF
+./raw_image_3.NEF
+
+etc. etc.
+
+Enjoy!
